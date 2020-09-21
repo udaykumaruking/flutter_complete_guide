@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import './question.dart';
+import './answer.dart';
+
 // void main() {
 //   runApp(MyApp());
 // }
@@ -32,8 +35,18 @@ class _MyAppState extends State<MyApp> {
   // App works without @override funtion too but its used for clearing doubts and styling purposes. It says that we are deliberately overriding stateless widget build function
   Widget build(BuildContext context) {
     var questions = [
-      'What\'s your favorite color',
-      'What\'s your favorite animal',
+      {
+        'questionText': 'What\'s your favorite color',
+        'answers': ['Red', 'Green', 'Blue', 'Black'],
+      },
+      {
+        'questionText': 'What\'s your favorite animal',
+        'answers': ['Dog', 'Elephant', 'Cat', 'Rabbit'],
+      },
+      {
+        'questionText': 'What\'s your favorite Subject',
+        'answers': ['Chemistry', 'Social', 'Maths', 'Physics'],
+      },
     ];
     return MaterialApp(
       home: Scaffold(
@@ -43,11 +56,12 @@ class _MyAppState extends State<MyApp> {
           ),
           body: Column(
             // We can pass only one widget to body
-            children: <Widget>[
-              Text(questions[_questionIndex]),
-              RaisedButton(child: Text("Answer 1"), onPressed: _answerQuestion),
-              RaisedButton(child: Text("Answer 2"), onPressed: _answerQuestion),
-              RaisedButton(child: Text("Answer 3"), onPressed: _answerQuestion),
+            children: [
+              Question(questions[_questionIndex]['questionText']),
+              ...(questions[_questionIndex]['answers'] as List<String>)
+                  .map((answer) {
+                return Answer(_answerQuestion, answer);
+              }).toList()
             ],
           )
           // Widget in angular brackets says the list - "[]" is of widget type
