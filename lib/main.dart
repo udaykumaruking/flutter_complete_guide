@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/quiz.dart';
 
-import './question.dart';
-import './answer.dart';
-
+import './result.dart';
 // void main() {
 //   runApp(MyApp());
 // }
@@ -20,7 +19,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-  final questions = const [
+  final _questions = const [
     {
       'questionText': 'What\'s your favorite color',
       'answers': ['Red', 'Green', 'Blue', 'Black'],
@@ -38,7 +37,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _questionIndex += 1;
     });
-    if (_questionIndex < questions.length) {
+    if (_questionIndex < _questions.length) {
       print("We have more questions");
     }
 
@@ -52,30 +51,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      // Scaffold: It gives basic app layout it has app bar and body kinda things
-      appBar: AppBar(
-        title: Text('Flutter Complete Guide'),
-      ),
-      body: _questionIndex < questions.length
-          ? Column(
-              // We can pass only one widget to body
-              children: [
-                Question(questions[_questionIndex]['questionText']),
-                ...(questions[_questionIndex]['answers'] as List<String>)
-                    .map((answer) {
-                  return Answer(_answerQuestion, answer);
-                }).toList()
-              ],
-            )
-          : Center(
-              child: Text(
-              "No More Questions! \n You Did It.",
-              //style: (color:Colors.blue,),
-              textAlign: TextAlign.center,
-            )
-              // Widget in angular brackets says the list - "[]" is of widget type
-
-              ),
-    ));
+            // Scaffold: It gives basic app layout it has app bar and body kinda things
+            appBar: AppBar(
+              title: Text('Flutter Complete Guide'),
+            ),
+            body: _questionIndex < _questions.length
+                ? Quiz(
+                    answerQuestion: _answerQuestion,
+                    questionIndex: _questionIndex,
+                    questions: _questions,
+                  )
+                : Result()));
   }
 }
